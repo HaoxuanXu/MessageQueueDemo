@@ -1,0 +1,2 @@
+SELECT ID FROM queue 
+WHERE STATUS = 'open' FOR UPDATE;
