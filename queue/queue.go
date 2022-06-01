@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"math/rand"
 
 	"github.com/BurntSushi/toml"
 	_ "github.com/lib/pq"
@@ -98,7 +99,8 @@ func (queue *DemoMessageQueue) Ingest(producerSource string) (sql.Result, error)
 	tx, err := queue.dbHandler.Begin()
 	util.CheckError(err)
 
-	res, err := tx.Exec(ingestString, producerSource, "open")
+	priority := rand.Intn(2) + 1
+	res, err := tx.Exec(ingestString, producerSource, "open", priority)
 	if err != nil {
 		fmt.Println(err)
 		tx.Rollback()

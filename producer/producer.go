@@ -6,16 +6,20 @@ import (
 	"github.come/HaoxuanXu/MessageQueueDemo/queue"
 )
 
-func GetProducer(name string, config queue.QueueConnectionConfig) DemoProducer {
-	return DemoProducer{
-		name:  name,
-		queue: queue.GetQueue(config),
-	}
+type Producer interface {
+	PushWork()
 }
 
 type DemoProducer struct {
 	name  string
 	queue queue.DemoMessageQueue
+}
+
+func GetProducer(name string, config queue.QueueConnectionConfig) Producer {
+	return DemoProducer{
+		name:  name,
+		queue: queue.GetQueue(config),
+	}
 }
 
 func (producer DemoProducer) PushWork() {

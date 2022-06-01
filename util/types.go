@@ -6,15 +6,13 @@ type WorkStatus struct {
 	Finished string
 }
 
-var workStatus *WorkStatus
+func GetWorkStatusMapping() WorkStatus {
 
-func GetWorkStatusMapping() *WorkStatus {
-	if workStatus == nil {
-		workStatus = &WorkStatus{
-			Open:     "open",
-			Occupied: "occupied",
-			Finished: "finished",
-		}
+	workStatus := WorkStatus{
+		Open:     "open",
+		Occupied: "occupied",
+		Finished: "finished",
 	}
+
 	return workStatus
 }

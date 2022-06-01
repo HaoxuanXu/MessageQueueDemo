@@ -9,7 +9,13 @@ import (
 	"github.come/HaoxuanXu/MessageQueueDemo/util"
 )
 
-func GetConsumer(name string, config queue.QueueConnectionConfig) DemoConsumer {
+type Consumer interface {
+	TakeWork() int
+	Work(int, int) bool
+	ReportWorkFinished(int, bool) error
+}
+
+func GetConsumer(name string, config queue.QueueConnectionConfig) Consumer {
 	return DemoConsumer{
 		name:          name,
 		workStatusMap: util.GetWorkStatusMapping(),
@@ -20,7 +26,7 @@ func GetConsumer(name string, config queue.QueueConnectionConfig) DemoConsumer {
 type DemoConsumer struct {
 	name          string
 	queue         queue.DemoMessageQueue
-	workStatusMap *util.WorkStatus
+	workStatusMap util.WorkStatus
 }
 
 func (consumer DemoConsumer) TakeWork() int {
